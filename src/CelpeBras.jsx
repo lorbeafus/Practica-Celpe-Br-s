@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const conjugations = {
   VER: {
@@ -248,7 +248,28 @@ export default function CelpeBras() {
   const [videoUrl, setVideoUrl] = useState(exercises[0].videoUrl || "");
   const [inputMode, setInputMode] = useState("text");
   const [uploadedImage, setUploadedImage] = useState(null);
+  const [time, setTime] = useState(0);
+  const [isActive, setIsActive] = useState(false);
   const fileRef = useRef();
+
+  // Timer logic
+  useEffect(() => {
+    let interval = null;
+    if (isActive) {
+      interval = setInterval(() => {
+        setTime((prevTime) => prevTime + 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [isActive]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+  };
 
   const verb = conjugations[verbTab];
   const tense = verb.tenses[tenseIdx];
@@ -531,6 +552,22 @@ Avalie por: (1) Competência textual, (2) Léxico-gramatical, (3) Adequação ao
         <div style={s.subtitle}>REPÚBLICA FEDERATIVA DO BRASIL</div>
         <h1 style={s.h1}>Celpe-Bras</h1>
         <p style={s.dateText}>Preparação para a prova · Próxima terça-feira</p>
+
+        {/* Timer */}
+        <div style={{ marginTop: "16px", display: "inline-flex", alignItems: "center", gap: "10px", padding: "8px 16px", background: "rgba(255,223,0,0.1)", borderRadius: "20px", border: "1px solid rgba(255,223,0,0.3)" }}>
+          <span style={{ fontSize: "18px", fontFamily: "monospace", color: time > 2700 ? "#e74c3c" : "#ffdf00", fontWeight: "bold" }}>
+            ⏱️ {formatTime(time)}
+          </span>
+          <div style={{ display: "flex", gap: "6px" }}>
+            <button onClick={() => setIsActive(!isActive)} style={{ background: "#ffdf00", border: "none", borderRadius: "50%", width: "24px", height: "24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px" }}>
+              {isActive ? "⏸️" : "▶️"}
+            </button>
+            <button onClick={() => { setIsActive(false); setTime(0); }} style={{ background: "rgba(255,255,255,0.1)", border: "none", borderRadius: "50%", width: "24px", height: "24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", color: "#fff" }}>
+              🔄
+            </button>
+          </div>
+          {time > 2700 && <span style={{ fontSize: "10px", color: "#e74c3c", marginLeft: "4px" }}>Tempo ideal excedido (45m)</span>}
+        </div>
       </header>
 
       {/* Tabs */}
