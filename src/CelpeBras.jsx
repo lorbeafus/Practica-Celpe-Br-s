@@ -86,16 +86,6 @@ const exercises = [
   },
 ];
 
-function getVideoEmbed(url) {
-  if (!url) return null;
-  try {
-    const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
-    if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
-    const vmMatch = url.match(/vimeo\.com\/(\d+)/);
-    if (vmMatch) return `https://player.vimeo.com/video/${vmMatch[1]}`;
-    return null;
-  } catch { return null; }
-}
 
 export default function CelpeBras() {
   const [tab, setTab] = useState("ejercicios");
@@ -114,7 +104,6 @@ export default function CelpeBras() {
   const verb = conjugations[verbTab];
   const tense = verb.tenses[tenseIdx];
   const ex = exercises[exIdx];
-  const embedUrl = getVideoEmbed(videoUrl);
 
   const handleText = (e) => {
     const val = e.target.value;
@@ -258,35 +247,49 @@ Avalie por: (1) Competência textual, (2) Léxico-gramatical, (3) Adequação ao
                   {ex.contexto}
                 </div>
 
-                {/* Material embed / link */}
+                {/* Material link button */}
                 {ex.videoUrl && (
                   <div style={{ marginBottom: "14px" }}>
-                    <div style={s.labelSmall}>🎬 MATERIAL DE APOIO</div>
-                    {embedUrl ? (
-                      <div style={{ borderRadius: "10px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.12)", aspectRatio: "16/9" }}>
-                        <iframe
-                          src={embedUrl}
-                          width="100%"
-                          height="100%"
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                          style={{ display: "block" }}
-                          title="Material de apoio"
-                        />
+                    <div style={s.labelSmall}>📖 MATERIAL DE APOIO</div>
+                    <a
+                      href={ex.videoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ 
+                        display: "flex", 
+                        alignItems: "center", 
+                        gap: "12px", 
+                        padding: "16px 20px", 
+                        background: "linear-gradient(135deg, rgba(255,223,0,0.1), rgba(255,223,0,0.05))", 
+                        border: "1px solid rgba(255,223,0,0.3)", 
+                        borderRadius: "12px", 
+                        color: "#ffdf00", 
+                        textDecoration: "none", 
+                        fontSize: "14px", 
+                        fontWeight: "bold",
+                        transition: "all 0.3s ease",
+                        boxShadow: "0 4px 15px rgba(0,0,0,0.2)"
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.background = "linear-gradient(135deg, rgba(255,223,0,0.2), rgba(255,223,0,0.1))";
+                        e.currentTarget.style.borderColor = "rgba(255,223,0,0.5)";
+                        e.currentTarget.style.transform = "translateY(-2px)";
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.background = "linear-gradient(135deg, rgba(255,223,0,0.1), rgba(255,223,0,0.05))";
+                        e.currentTarget.style.borderColor = "rgba(255,223,0,0.3)";
+                        e.currentTarget.style.transform = "translateY(0)";
+                      }}
+                    >
+                      <span style={{ fontSize: "24px" }}>{ex.videoUrl.includes('youtube') || ex.videoUrl.includes('youtu.be') ? "📺" : "📰"}</span>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: "11px", color: "rgba(255,223,0,0.7)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "2px" }}>
+                          Clique para abrir o material
+                        </div>
+                        <div style={{ wordBreak: "break-all", opacity: 0.9 }}>{ex.videoUrl}</div>
                       </div>
-                    ) : (
-                      <a
-                        href={ex.videoUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ display: "flex", alignItems: "center", gap: "10px", padding: "14px 16px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "10px", color: "#3b8beb", textDecoration: "none", fontSize: "13px", wordBreak: "break-all" }}
-                      >
-                        <span style={{ fontSize: "20px" }}>📰</span>
-                        <span>{ex.videoUrl}</span>
-                        <span style={{ marginLeft: "auto", fontSize: "11px", color: "#666", whiteSpace: "nowrap" }}>Abrir ↗</span>
-                      </a>
-                    )}
+                      <span style={{ fontSize: "18px" }}>↗</span>
+                    </a>
                   </div>
                 )}
 
