@@ -168,8 +168,7 @@ const exercises = [
     tipo: "Tarefa 1 — Vídeo + E-mail Formal",
     nivel: "Intermediário Superior",
     nivelColor: "#e67e22",
-    videoUrl:
-      "https://videohighlight.com/v/xPNyEop0yFc?language=es&utm_source=chatgpt.com",
+    videoUrl: "https://www.youtube.com/watch?v=KT9L83OtYLs",
     contexto:
       "📺 Assista ao vídeo sobre o impacto das redes sociais na educação. Ele aborda benefícios como aprendizagem colaborativa, além de riscos e questões de privacidade.",
     tarefa:
@@ -204,8 +203,7 @@ const exercises = [
     tipo: "Tarefa 3 — Vídeo + Carta Argumentativa",
     nivel: "Intermediário Superior",
     nivelColor: "#e67e22",
-    videoUrl:
-      "https://videohighlight.com/v/RRNTwO95fLY?language=es&utm_source=chatgpt.com",
+    videoUrl: "https://www.youtube.com/watch?v=DMBhFOGvD4s",
     contexto:
       "📺 Assista ao vídeo sobre o impacto das redes sociais no desempenho escolar. O material destaca temas como comunidade, colaboração e os reflexos acadêmicos.",
     tarefa:
@@ -554,19 +552,75 @@ Avalie por: (1) Competência textual, (2) Léxico-gramatical, (3) Adequação ao
         <p style={s.dateText}>Preparação para a prova · Próxima terça-feira</p>
 
         {/* Timer */}
-        <div style={{ marginTop: "16px", display: "inline-flex", alignItems: "center", gap: "10px", padding: "8px 16px", background: "rgba(255,223,0,0.1)", borderRadius: "20px", border: "1px solid rgba(255,223,0,0.3)" }}>
-          <span style={{ fontSize: "18px", fontFamily: "monospace", color: time > 2700 ? "#e74c3c" : "#ffdf00", fontWeight: "bold" }}>
+        <div
+          style={{
+            marginTop: "16px",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "10px",
+            padding: "8px 16px",
+            background: "rgba(255,223,0,0.1)",
+            borderRadius: "20px",
+            border: "1px solid rgba(255,223,0,0.3)",
+          }}
+        >
+          <span
+            style={{
+              fontSize: "18px",
+              fontFamily: "monospace",
+              color: time > 2700 ? "#e74c3c" : "#ffdf00",
+              fontWeight: "bold",
+            }}
+          >
             ⏱️ {formatTime(time)}
           </span>
           <div style={{ display: "flex", gap: "6px" }}>
-            <button onClick={() => setIsActive(!isActive)} style={{ background: "#ffdf00", border: "none", borderRadius: "50%", width: "24px", height: "24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px" }}>
+            <button
+              onClick={() => setIsActive(!isActive)}
+              style={{
+                background: "#ffdf00",
+                border: "none",
+                borderRadius: "50%",
+                width: "24px",
+                height: "24px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "12px",
+              }}
+            >
               {isActive ? "⏸️" : "▶️"}
             </button>
-            <button onClick={() => { setIsActive(false); setTime(0); }} style={{ background: "rgba(255,255,255,0.1)", border: "none", borderRadius: "50%", width: "24px", height: "24px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", color: "#fff" }}>
+            <button
+              onClick={() => {
+                setIsActive(false);
+                setTime(0);
+              }}
+              style={{
+                background: "rgba(255,255,255,0.1)",
+                border: "none",
+                borderRadius: "50%",
+                width: "24px",
+                height: "24px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "10px",
+                color: "#fff",
+              }}
+            >
               🔄
             </button>
           </div>
-          {time > 2700 && <span style={{ fontSize: "10px", color: "#e74c3c", marginLeft: "4px" }}>Tempo ideal excedido (45m)</span>}
+          {time > 2700 && (
+            <span
+              style={{ fontSize: "10px", color: "#e74c3c", marginLeft: "4px" }}
+            >
+              Tempo ideal excedido (45m)
+            </span>
+          )}
         </div>
       </header>
 
